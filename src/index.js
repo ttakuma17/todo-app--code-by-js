@@ -5,14 +5,18 @@ const onClickAdd = () => {
   const InputText = document.getElementById("add-text").value;
   document.getElementById("add-text").value = "";
   // console.log(InputText);
+  createIncompleteList(InputText);
+};
 
+// 未完了リストに追加する関数
+const createIncompleteList = (text) => {
   //div作成
   const div = document.createElement("div");
   div.className = "list-row";
 
   //liタグ作成
   const li = document.createElement("li");
-  li.innerText = InputText;
+  li.innerText = text;
   // console.log(li);
 
   //button(完了)タグ生成
@@ -42,6 +46,18 @@ const onClickAdd = () => {
     // buttonタグを生成
     const backButton = document.createElement("button");
     backButton.innerText = "戻す";
+    // 戻すボタンに対してイベントを付与する必要がある
+    backButton.addEventListener("click", () => {
+      // alert("戻す"); // 関数が動いているか確認
+      //押された戻すボタンの親タグを（div）完了リストから削除
+      const deleteTarget = backButton.parentNode;
+      document.getElementById("complete-list").removeChild(deleteTarget);
+      // テキストを取得する
+      const text = backButton.parentNode.firstElementChild.innerHTML;
+      //console.log(text);//テキストを取得できているかを確認する
+      // 未完了のTODOに戻すことになるが処理内容自体は新しいTODOを登録する時にした処理と同じになる
+      createIncompleteList(text);
+    });
 
     //divタグの子要素に各要素を設定
     addTarget.appendChild(li);
