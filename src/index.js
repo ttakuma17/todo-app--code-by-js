@@ -19,35 +19,39 @@ const onClickAdd = () => {
   const completeButton = document.createElement("button");
   completeButton.innerText = "完了";
   completeButton.addEventListener("click", () => {
-    //押された削除ボタンの親タグ（div）を未完了リストから削除
+    // 1 alert("完了");//関数は正常に機能している
     deleteFromIncompleteList(deleteButton.parentNode);
-    // console.log(deleteTaret);
-    // const deleteTaret = deleteButton.parentNode;
-    // document.getElementById("incomplete-list").removeChild(deleteTaret);
-
-    //完了リストに追加する要素
+    // deleteIncompleteList関数で代替できたので不要となる
+    // 2 const deleteTaret = completeButton.parentNode;
+    //   document.getElementById("incomplete-list").removeChild(deleteTaret);
+    // 4 挙動はOK　完了ボタンを押すと削除された
+    // 5 完了リストに追加する要素
     const addTarget = completeButton.parentNode;
-    //TODO内容テキストを取得
+    // 6 TODO内容テキストを取得する
     const text = addTarget.firstElementChild.innerText;
-    //div以下を初期化
+    // クリックした時にテキストの内容を取得できるか確認するために使用するconsole.log
+    // console.log(text);
+    // 7 div要素のみを使いまわししたい →　div以下の要素を初期化する必要がある
     addTarget.textContent = null;
-    // console.log(addTarget);
-    //liタグを生成
+    // console.log(addTarget); // <div class="list-row"></div>　が表示されることを確認
+    // liタグの生成
     const li = document.createElement("li");
+    //配下にtextを設定したい
     li.innerText = text;
-    // console.log(li);
-
-    //buttonタグを生成
+    // console.log(li);// <li>hahah</li>入力値が表示される
+    // buttonタグを生成
     const backButton = document.createElement("button");
     backButton.innerText = "戻す";
 
     //divタグの子要素に各要素を設定
     addTarget.appendChild(li);
     addTarget.appendChild(backButton);
-    // console.log(addTarget);　35の13：44までの挙動は同じ　問題なくエラーは発生していない
-
-    //完了リストに追加　→　謎のエラーで詰まっている完了済みのTodoリストへ移動しない
+    // addTargetが最終的にどうなっているかを確認する
+    // console.log(addTarget);// <div class="list-row"><li>入力値</li><button>戻す</button></div>が表示される
+    // 必要な要素を指定できたので、完了したTODOに要素を追加すればよい
+    // 完了したTODOへ要素を追加
     document.getElementById("complete-list").appendChild(addTarget);
+    // 完了ボタンを押すと、Uncaught TypeError: Cannot read property 'appendChild' of nullのエラー発生
   });
 
   // console.log(completeButton);
@@ -59,8 +63,8 @@ const onClickAdd = () => {
   deleteButton.addEventListener("click", () => {
     //押された削除ボタンの親タグ（div）を未完了リストから削除
     deleteFromIncompleteList(deleteButton.parentNode);
-    // console.log(deleteTaret); ←稼働確認用に記載して不要になった段階で削除した
-    // const deleteTaret = deleteButton.parentNode;　←　該当の処理が重複していることが確認できたので関数化したため不要となった
+    //　以下の処理が完了ボタンと削除ぼたんで重複しているので関数：deleteIncompleteListを定義したため不要となった
+    // const deleteTaret = deleteButton.parentNode;
     // document.getElementById("incomplete-list").removeChild(deleteTaret);
   });
 
@@ -70,7 +74,7 @@ const onClickAdd = () => {
   div.appendChild(deleteButton);
   // console.log(div);
 
-  //未完了のリストに追加　＊　なぜか1つ目のリストの間にテキストがはいり動画と挙動が違うようにみえる
+  //未完了のリストに追加
   document.getElementById("incomplete-list").appendChild(div);
 };
 
@@ -78,7 +82,7 @@ document
   .getElementById("add-button")
   .addEventListener("click", () => onClickAdd());
 
-//未完了リストから指定の要素を削除
+// 3 未完了リストから指定の要素を削除
 const deleteFromIncompleteList = (target) => {
   document.getElementById("incomplete-list").removeChild(target);
 };
